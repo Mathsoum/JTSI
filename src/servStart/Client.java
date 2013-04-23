@@ -101,11 +101,11 @@ public class Client {
 		}
 	}
 
-
+	// TODO send same info as the jtsi component
 	public static void main(String[] args) throws IOException {
 		Client c = new Client();
 
-		if(c.initNetwork("192.168.56.1", 4444) >=0){
+		if(c.initNetwork("192.168.56.101", 4444) >=0){
 
 			Double[] in = new Double[2];
 			c.sendToServer(in);
