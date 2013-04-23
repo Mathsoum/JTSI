@@ -1,0 +1,12 @@
+Ce dossier contient la partie C++ générant le Dll qui appellera le Java.
+
+Le dossier Jtsi contient les sources.
+
+Le fichier Jtsi.sln correspond à la solution Visual Studio, c'est-à-dire
+le "fichier projet" en quelque sorte. La dll (Jtsi.dll) est générée dans
+le dossier Release.
+
+Beaucoup de fichiers ne sont pas nécessaires à l'exportation de la solution
+sur un repo git car générés par Visual Studio à la compilation.
+Cependant, je ne sais pas encore lesquels sont indispensables et lesquels
+ne le sont pas. Quand j'aurais fait le tri, je les enlèverais du repo git.
