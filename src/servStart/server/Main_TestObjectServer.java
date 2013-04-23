@@ -34,9 +34,7 @@ public class Main_TestObjectServer {
 				cal.setTimeInMillis(System.currentTimeMillis());
 				double i = cal.get(Calendar.MINUTE);
 				outputArray[0] = i;
-				
 				returnPacket.put("outarray", outputArray);
-				
 				return returnPacket;
 			}
 			

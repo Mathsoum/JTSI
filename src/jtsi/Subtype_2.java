@@ -50,11 +50,12 @@ public class Subtype_2 extends Subtype {
 			
 			int serverport = new Integer(serverportS);
 			logwindow.addText(String.format("Connecting to %s:%s ... %n", serverhost,serverport));
-			if(client.initNetwork(serverhost, serverport)>=0){
+			int res = client.initNetwork(serverhost, serverport);
+			if(res>=0){
 				logwindow.addText(String.format("OK! %n"));
 				return client;
 			}else{
-				logwindow.addText(String.format("ERROR %n"));
+				logwindow.addText(String.format("ERROR : %s %n", new Integer(res).toString()));
 				client = null;
 				return null;
 			}
