@@ -10,18 +10,22 @@
 
 // The environment variable's name must be of wide char type
 #define ENV_VAR_JAR_LOCATION	"JTSI_JAR"
+#define ENV_VAR_LOG_LOCATION	"JTSI_LOG"
 #define	NB_ITEMS				3
 #define LOADEDCLASS				"jtsi/TrnsysInterface"
 
 void printLog(std::string str) {
-	std::ofstream file("E:\\ter\\out.log", std::ios::app);
+	static char* logFile = new char[256];
+	GetEnvironmentVariableA(ENV_VAR_LOG_LOCATION, logFile, 256);
+	std::ofstream file(logFile, std::ios::app);
 	file.write(str.data(), str.length());
 	file << std::endl;
 	file.close();
+	delete logFile;
 }
 
 extern "C" __declspec(dllexport)
-int TYPE9002 (
+int TYPE171 (
 				double &time,  // the simulation time
 				double xin[],  // the array containing the component InpUTS
 				double xout[], // the array which the component fills with its appropriate OUTPUTS
@@ -33,7 +37,7 @@ int TYPE9002 (
 		)
 {
 	//SET THE VERSION INFORMATION FOR TRNSYS
-	if (info[6]== -2) 
+	if (info[6]== -2)
 	{
 		info[11]=16;
 		return 1;
