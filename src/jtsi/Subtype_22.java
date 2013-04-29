@@ -5,6 +5,10 @@ import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyException;
 import fr.dgac.ivy.IvyMessageListener;
 
+/**
+ *This sub type uses the ivy library for exchanging information with the server.
+ *
+ * */
 public class Subtype_22 extends Subtype {
 	private Ivy ivyCom;
 	private int stepCount;
