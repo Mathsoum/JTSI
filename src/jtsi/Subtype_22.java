@@ -68,9 +68,9 @@ public class Subtype_22 extends Subtype {
 	public static void main(String[] args) {
 		Subtype_22 sub = new Subtype_22(null);
 		
-		for(int i=0; i<100; ++i) {
+//		for(int i=0; i<100; ++i) {
 			sub.step();
-		}
+//		}
 		sub.stop();
 	}
 }
