@@ -1,8 +1,5 @@
 package jtsi.test;
 
-import java.util.Hashtable;
-
-import jtsi.Subtype_2;
 import jtsi.TrnsysInterface;
 
 public class Testsubtype2 {
@@ -22,7 +19,5 @@ public class Testsubtype2 {
 			trnsysIface.step();
 		}
 		System.out.println("END  OF TEST");
-
 	}
-
 }

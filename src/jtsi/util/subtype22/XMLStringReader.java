@@ -1,4 +1,4 @@
-package jtsi.util.subtype23;
+package jtsi.util.subtype22;
 
 import java.io.IOException;
 import java.io.StringReader;

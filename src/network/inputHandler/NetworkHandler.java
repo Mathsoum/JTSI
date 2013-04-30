@@ -1,6 +1,6 @@
-package servStart.server;
+package network.inputHandler;
 
-public interface ObjectHandler {
+public interface NetworkHandler {
 
 	public abstract void handle(Object o); 
 	public abstract Object buildResponsePacket();

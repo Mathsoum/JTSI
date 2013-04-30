@@ -7,7 +7,6 @@
 #include <cstring>
 #include "trnsys.h" //TRNSYS acess functions (allow to acess TIME etc.)
 
-
 // The environment variable's name must be of wide char type
 #define ENV_VAR_JAR_LOCATION	"JTSI_JAR"
 #define ENV_VAR_LOG_LOCATION	"JTSI_LOG"

@@ -1,7 +1,7 @@
 package jtsi;
 
 import jtsi.util.LogWindow;
-import jtsi.util_subtype1.Window;
+import jtsi.util.subtype1.Window;
 
 public class Subtype_1 extends Subtype {
 	public Window window;

@@ -2,6 +2,7 @@ package jtsi;
 
 
 
+
 public abstract class Subtype {
 	protected TrnsysInterface trnsysInterface;
 	

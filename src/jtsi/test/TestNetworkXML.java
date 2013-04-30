@@ -1,11 +1,11 @@
-package servStart.subtype23;
+package jtsi.test;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import jtsi.util.subtype23.XMLStringReader;
+import jtsi.util.subtype22.XMLStringReader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
