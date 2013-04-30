@@ -1,5 +1,9 @@
 package jtsi.util.subtype22;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import fr.dgac.ivy.Ivy;
 import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyException;
@@ -14,14 +18,21 @@ public class IvyServerLink {
 			ivyCom.bindMsg("^Client : (.*)", new IvyMessageListener() {
 				
 				@Override
-				public void receive(IvyClient arg0, String[] arg1) {
+				public void receive(IvyClient client, String[] message) {
+					String[] out = buildResponse(message[0]);
 					try {
-						ivyCom.sendMsg("Server : Step received.");
+						FileWriter fw = new FileWriter("/tmp/out", true);
+						for(String str : out) {
+							fw.write(str);
+							fw.append("\n");
+							fw.flush();
+						}
+						fw.close();
+						ivyCom.sendMsg("Server : EOT");
 					} catch (IvyException e) {
 						e.printStackTrace();
-					}
-					for(String str : arg1) {
-						System.out.println("Msg : ["+str+"]");
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			});
@@ -41,6 +52,14 @@ public class IvyServerLink {
 		} catch (IvyException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String[] buildResponse(String input) {
+		ArrayList<String> output = new ArrayList<>();
+		for(int i=0; i<5; ++i) {
+			output.add("Process #"+i+" ["+input+"]... ");
+		}
+		return output.toArray(new String[output.size()]);
 	}
 	
 	public static void main(String[] args) {

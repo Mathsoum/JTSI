@@ -1,14 +1,8 @@
 package jtsi;
 
 import fr.dgac.ivy.Ivy;
-import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyException;
-import fr.dgac.ivy.IvyMessageListener;
 
-/**
- *This sub type uses the ivy library for exchanging information with the server.
- *
- * */
 public class Subtype_22 extends Subtype {
 	private Ivy ivyCom;
 	private int stepCount;
@@ -17,23 +11,8 @@ public class Subtype_22 extends Subtype {
 		super(_interface);
 		ivyCom = new Ivy("clientApp", "Client ready to send", null);
 		try {
-			ivyCom.bindMsg("^Server : (.*)", new IvyMessageListener() {
-				@Override
-				public void receive(IvyClient arg0, String[] arg1) {
-					for(String str : arg1) {
-						System.out.println("Msg : ["+str+"]");
-						try {
-							ivyCom.sendMsg("Msg : ["+str+"]");
-						} catch (IvyException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			});
 			ivyCom.start("192.168.1:2010");
-			System.out.println("Waiting for server...");
-			ivyCom.waitForClient("serverApp", 0);
-			System.out.println("Let's go!...");
+			ivyCom.waitForClient("serverApp", 0); // Waiting for a running server to send a request
 		} catch (IvyException e) {
 			e.printStackTrace();
 		}
@@ -44,16 +23,7 @@ public class Subtype_22 extends Subtype {
 	public void step() {
 		try {
 			++stepCount;
-			System.out.println("Step "+stepCount);
 			ivyCom.sendMsg("Client : Step "+stepCount);
-		} catch (IvyException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void send(String msg) {
-		try {
-			ivyCom.sendMsg(msg);
 		} catch (IvyException e) {
 			e.printStackTrace();
 		}
@@ -71,10 +41,13 @@ public class Subtype_22 extends Subtype {
 	
 	public static void main(String[] args) {
 		Subtype_22 sub = new Subtype_22(null);
-		
-//		for(int i=0; i<100; ++i) {
+
+		long begin = System.currentTimeMillis();
+		for(int i=0; i<100; ++i) {
 			sub.step();
-//		}
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("Time : "+(end-begin));
 		sub.stop();
 	}
 }
