@@ -31,8 +31,7 @@ public class Subtype_1 extends Subtype {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Interruption exception : "+e.getMessage());
 			}
 		}
 	}

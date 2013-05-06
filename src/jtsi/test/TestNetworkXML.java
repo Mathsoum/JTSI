@@ -1,44 +1,34 @@
 package jtsi.test;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import jtsi.util.subtype22.XMLStringReader;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import network.Client;
+import network.DataType;
 
 public class TestNetworkXML {
 	public TestNetworkXML() {
-		ServerSocket servSock = null;
-		try {
-			servSock = new ServerSocket(1337);
-			Socket cliSock = servSock.accept();
-			ObjectInputStream ois = new ObjectInputStream(cliSock.getInputStream());
-			String str = (String) ois.readObject();
-			System.out.println(str);
-			Document xml = XMLStringReader.parseString(str);
-			Element root = xml.getDocumentElement();
-			NodeList nodeList = root.getElementsByTagName("input");
-			for(int i=0; i<nodeList.getLength(); ++i) {
-				System.out.println("Node "+i+" <"+nodeList.item(i).getAttributes().getNamedItem("id")+"> ==> "+nodeList.item(i).getTextContent());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				servSock.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		Client client = new Client("192.168.1.14", 4444, DataType.XML);
+		System.out.println("Sending :");
+		HashMap<String, Object> inputs = new HashMap<String, Object>();
+		inputs.put("a", new Integer(13));
+		inputs.put("b", new Integer(37));
+		inputs.put("c", new Double(23));
+		ArrayList<Double> array = new ArrayList<Double>();
+		array.add(new Double(1));
+		array.add(new Double(2));
+		array.add(new Double(3));
+		inputs.put("darray", array);
+		inputs.put("e", new Double(42));
+		for(String key : inputs.keySet()) {
+			System.out.println(key+" => "+inputs.get(key));
+		}
+		client.sendToServer(inputs);
+		System.out.print("Waiting for outputs...");
+		HashMap<String, Object> outputs = client.waitOutputs();
+		System.out.println(" OK");
+		for(String key : outputs.keySet()) {
+			System.out.println(key+" => "+outputs.get(key));
 		}
 	}
 
@@ -48,5 +38,4 @@ public class TestNetworkXML {
 	public static void main(String[] args) {
 		new TestNetworkXML();
 	}
-
 }

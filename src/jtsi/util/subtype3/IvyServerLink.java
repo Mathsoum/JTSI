@@ -30,9 +30,9 @@ public class IvyServerLink {
 						fw.close();
 						ivyCom.sendMsg("Server : EOT");
 					} catch (IvyException e) {
-						e.printStackTrace();
+						System.err.println("Ivy exception : "+e.getMessage());
 					} catch (IOException e) {
-						e.printStackTrace();
+						System.err.println("I/O exception : "+e.getMessage());
 					}
 				}
 			});
@@ -42,15 +42,14 @@ public class IvyServerLink {
 					try {
 						ivyCom.sendMsg("Server : I'm shutting down...");
 					} catch (IvyException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.err.println("Ivy exception : "+e.getMessage());
 					}
 					ivyCom.stop();
 				}
 			});
 			ivyCom.start("192.168.1:2010");
 		} catch (IvyException e) {
-			e.printStackTrace();
+			System.err.println("Ivy exception : "+e.getMessage());
 		}
 	}
 	

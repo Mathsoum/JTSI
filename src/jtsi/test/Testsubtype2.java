@@ -11,7 +11,7 @@ public class Testsubtype2 {
 		double [] paramsArray = {1d,1d};
 		double [] inarray = {1d};
 		
-		TrnsysInterface trnsysIface = new TrnsysInterface(2);
+		TrnsysInterface trnsysIface = new TrnsysInterface(21);
 		trnsysIface.setParameters(paramsArray);
 		trnsysIface.setXin(inarray);
 		

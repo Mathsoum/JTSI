@@ -40,7 +40,6 @@ public class Window extends JFrame {
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				// TODO Auto-generated method stub
 				super.windowClosing(arg0);
 				playMode = true;
 			}

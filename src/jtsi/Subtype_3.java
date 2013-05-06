@@ -14,7 +14,7 @@ public class Subtype_3 extends Subtype {
 			ivyCom.start("192.168.1:2010");
 			ivyCom.waitForClient("serverApp", 0); // Waiting for a running server to send a request
 		} catch (IvyException e) {
-			e.printStackTrace();
+			System.err.println("Ivy exception : "+e.getMessage());
 		}
 		stepCount = 0;
 	}
@@ -25,7 +25,7 @@ public class Subtype_3 extends Subtype {
 			++stepCount;
 			ivyCom.sendMsg("Client : Step "+stepCount);
 		} catch (IvyException e) {
-			e.printStackTrace();
+			System.err.println("Ivy exception : "+e.getMessage());
 		}
 	}
 	
@@ -33,7 +33,7 @@ public class Subtype_3 extends Subtype {
 		try {
 			ivyCom.sendMsg("Stop");
 		} catch (IvyException e) {
-			e.printStackTrace();
+			System.err.println("Ivy exception : "+e.getMessage());
 		}
 		
 		ivyCom.stop();

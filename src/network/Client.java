@@ -1,28 +1,62 @@
 package network;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+
+import network.builders.JsonBuilder;
+import network.builders.ObjectBuilder;
+import network.builders.AbstractBuilder;
+import network.builders.RawTextBuilder;
+import network.builders.XmlBuilder;
+import network.transmitters.AbstractTransmitter;
+import network.transmitters.JsonTransmitter;
+import network.transmitters.ObjectTransmitter;
+import network.transmitters.RawTextTransmitter;
+import network.transmitters.XmlTransmitter;
 
 public class Client {
 
-	private Socket echoSocket = null;
-	private ObjectInputStream objectInputStream = null;
-	private ObjectOutputStream objectOutputStream = null;
+	private Socket socket;
+	private AbstractTransmitter transmitter;
+	private AbstractBuilder builder;
 
+	public Client(String host, int port, DataType dataType) {
+		initNetwork(host, port);
+		switch (dataType) {
+		case JSON:
+			transmitter = new JsonTransmitter(socket);
+			builder = new JsonBuilder();
+			break;
+		case RAW_STRING:
+			transmitter = new RawTextTransmitter(socket);
+			builder = new RawTextBuilder();
+			break;
+		case SERIALIZED_OBJECT:
+			transmitter = new ObjectTransmitter(socket);
+			builder = new ObjectBuilder();
+			break;
+		case XML:
+			transmitter = new XmlTransmitter(socket);
+			builder = new XmlBuilder();
+			break;
+		default:
+			transmitter = null;
+			builder = null;
+			break;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param host
 	 * @param port
 	 * @return negative number in case of error, 0 or positive number in case of success
 	 */
-	public int initNetwork(String host,int port) {
+	private int initNetwork(String host,int port) {
 		try {
-			echoSocket = new Socket(host, port);
-			objectOutputStream = new ObjectOutputStream(echoSocket.getOutputStream());
-			objectInputStream =  new ObjectInputStream(echoSocket.getInputStream());
+			socket = new Socket(host, port);
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host: " + host);
 			return -1;
@@ -38,54 +72,11 @@ public class Client {
 	 * < 0 means there is an Error 
 	 * 
 	 * 	 */
-	public Object waitInput(){
-		try {
-			System.err.println("Waiting object...");
-			Object input = objectInputStream.readObject();
-			System.err.println("Object is "+input);
-			System.err.println("End of read");
-			if(input != null){
-				System.err.println("Correct object received");
-			}else{
-				System.err.println("Server stopped connection ?");
-			}
-			return input;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.err.println("ClassNotFoundException");
-			e.printStackTrace();
-			return null;
-		}
-		return null;
+	public HashMap<String, Object> waitOutputs(){
+		return builder.handle(transmitter.receive());
 	}
 
-
-
-	public void sendToServer(Object obj){
-		try {
-			objectOutputStream.writeObject(obj);
-			objectOutputStream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void sendToServer(HashMap<String, Object> formattedInputs){
+		transmitter.send(builder.build(formattedInputs));
 	}
-
-	// TODO send same info as the jtsi component
-	public static void main(String[] args) throws IOException {
-		Client c = new Client();
-
-		if(c.initNetwork("192.168.56.1", 4444) >=0){
-
-			Double[] in = new Double[2];
-			c.sendToServer(in);
-
-			c.waitInput();
-
-		}
-
-	}
-
-
-
 }

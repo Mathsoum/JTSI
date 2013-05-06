@@ -38,7 +38,7 @@ public class LogWindow extends JFrame{
 	}
 	
 	public void setTitle(String s){
-		this.setTitle(s);
+		super.setTitle(s);
 	}
 	public static void main(String[] args) {
 		LogWindow w = new LogWindow();
