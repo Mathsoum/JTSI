@@ -2,7 +2,7 @@ package jtsi.test;
 
 import jtsi.TrnsysInterface;
 
-public class Testsubtype2 {
+public class Testsubtype21 {
 
 	/**
 	 * @param args
