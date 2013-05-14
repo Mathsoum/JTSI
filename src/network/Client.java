@@ -3,11 +3,11 @@ package network;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.util.Map;
 
+import network.builders.AbstractBuilder;
 import network.builders.JsonBuilder;
 import network.builders.ObjectBuilder;
-import network.builders.AbstractBuilder;
 import network.builders.RawTextBuilder;
 import network.builders.XmlBuilder;
 import network.transmitters.AbstractTransmitter;
@@ -26,7 +26,7 @@ public class Client {
 		initNetwork(host, port);
 		switch (dataType) {
 		case JSON:
-			transmitter = new JsonTransmitter(socket);
+			transmitter = new RawTextTransmitter(socket);
 			builder = new JsonBuilder();
 			break;
 		case RAW_STRING:
@@ -38,7 +38,7 @@ public class Client {
 			builder = new ObjectBuilder();
 			break;
 		case XML:
-			transmitter = new XmlTransmitter(socket);
+			transmitter = new RawTextTransmitter(socket);
 			builder = new XmlBuilder();
 			break;
 		default:
@@ -72,11 +72,11 @@ public class Client {
 	 * < 0 means there is an Error 
 	 * 
 	 * 	 */
-	public HashMap<String, Object> waitOutputs(){
+	public Map<String, Object> waitOutputs(){
 		return builder.handle(transmitter.receive());
 	}
 
-	public void sendToServer(HashMap<String, Object> formattedInputs){
+	public void sendToServer(Map<String, Object> formattedInputs){
 		transmitter.send(builder.build(formattedInputs));
 	}
 }

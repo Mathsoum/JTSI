@@ -2,6 +2,8 @@ package jtsi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import jtsi.util.LogWindow;
 import network.Client;
@@ -56,7 +58,7 @@ public abstract class Subtype_2 extends Subtype {
 		}
 	}
 	
-	protected HashMap<String, Object> formatInputs() {
+	protected Map<String, Object> formatInputs() {
 		int inputcount = trnsysInterface.getNbInputs();
 	
 		Integer timeStep = trnsysInterface.getTimestep();
@@ -84,8 +86,8 @@ public abstract class Subtype_2 extends Subtype {
 	 */
 	@Override
 	public void step() {
-		long begin = System.currentTimeMillis();
-		logwindow.addText(String.format("Step %s \n",stepCount));
+		long begin = System.nanoTime();
+		logwindow.addText(String.format("\nStep %s \n",stepCount));
 		this.stepCount ++;
 		logwindow.setTitle("step: "+stepCount);
 	
@@ -96,26 +98,26 @@ public abstract class Subtype_2 extends Subtype {
 			client.sendToServer(formatInputs());
 		}
 	
-		long afterSend = System.currentTimeMillis();
+		long afterSend = System.nanoTime();
 		logwindow.addText("Waiting for server answer... ");
 		//receive packet from network
-		HashMap<String, Object> input = client.waitOutputs();
-		long afterWaitObj = System.currentTimeMillis();
+		Map<String, Object> ouputs = client.waitOutputs();
+		long afterWaitObj = System.nanoTime();
 		@SuppressWarnings("unchecked")
-		ArrayList<Double> outarray = (ArrayList<Double>) input.get("outarray");
+		List<Double> outarray = (List<Double>) ouputs.get("outarray");
 		for(int i=0; i< outarray.size() ; i++){
 			Double d = outarray.get(i);
-			if(d != null){
+			if(d != null) {
 				trnsysInterface.setXout(i, d.doubleValue());
 			}
 		}
 		logwindow.addText("OK\n");
-		long end = System.currentTimeMillis();
+		long end = System.nanoTime();
 		
-		logwindow.addText("Total: "+(end-begin)+"ms\n");
-		logwindow.addText("Sending: "+(afterSend-begin)+"ms | ");
-		logwindow.addText("Waiting: "+(afterWaitObj-afterSend)+"ms | ");
-		logwindow.addText("Setting Output: "+(end-afterWaitObj)+"ms\n");
+		logwindow.addText("Total: "+(end-begin)+"ns\n");
+		logwindow.addText("Sending: "+(afterSend-begin)+"ns | ");
+		logwindow.addText("Waiting: "+(afterWaitObj-afterSend)+"ns | ");
+		logwindow.addText("Setting Output: "+(end-afterWaitObj)+"ns");
 	}
 
 }

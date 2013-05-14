@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import network.DataType;
+import network.builders.AbstractBuilder;
 import network.builders.JsonBuilder;
 import network.builders.ObjectBuilder;
-import network.builders.AbstractBuilder;
 import network.builders.RawTextBuilder;
 import network.builders.XmlBuilder;
 import network.transmitters.AbstractTransmitter;
-import network.transmitters.JsonTransmitter;
 import network.transmitters.ObjectTransmitter;
 import network.transmitters.RawTextTransmitter;
-import network.transmitters.XmlTransmitter;
 import panel.TextLogWindow;
 
 public abstract class Server {
@@ -32,7 +31,7 @@ public abstract class Server {
 	private void initBuilderAndTransmitter() {
 		switch (dataType) {
 		case JSON:
-			transmitter = new JsonTransmitter(clientSocket);
+			transmitter = new RawTextTransmitter(clientSocket);
 			builder = new JsonBuilder();
 			break;
 		case RAW_STRING:
@@ -44,7 +43,7 @@ public abstract class Server {
 			builder = new ObjectBuilder();
 			break;
 		case XML:
-			transmitter = new XmlTransmitter(clientSocket);
+			transmitter = new RawTextTransmitter(clientSocket);
 			builder = new XmlBuilder();
 			break;
 		default:
@@ -86,24 +85,27 @@ public abstract class Server {
 		}
 	}
 	
-	protected HashMap<String, Object> formatOutputs() {
-		HashMap<String, Object> returnPacket = new HashMap<String, Object>();
+	protected Map<String, Object> formatOutputs() {
+		Map<String, Object> returnPacket = new HashMap<String, Object>();
 		ArrayList<Double> outputArray = new ArrayList<Double>();
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTimeInMillis(System.currentTimeMillis());
-		Double i = (double) cal.get(Calendar.MINUTE);
+		Double i = new Double(cal.get(Calendar.MINUTE));
 		outputArray.add(i);
+		outputArray.add(new Double(42));
+		System.out.println("Formatted Output : "+outputArray);
 		returnPacket.put("outarray", outputArray);
 		return returnPacket;
 	}
 
 	public void run(int port) {
+		System.out.println("Server "+dataType+" running...");
 		initConnection(port);
 		initBuilderAndTransmitter();
 		boolean _continue = true;
 		while(_continue) {
 			System.out.println("Waiting for inputs...");
-			HashMap<String, Object> inputs = builder.handle(transmitter.receive());
+			Map<String, Object> inputs = builder.handle(transmitter.receive());
 			if(inputs == null) {
 				_continue = false;
 				log.print("Connection interupted");

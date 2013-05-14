@@ -1,8 +1,8 @@
 package network.builders;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractBuilder {
-	public abstract HashMap<String, Object> handle(Object rawObject);
-	public abstract Object build(HashMap<String, Object> formattedData);
+	public abstract Map<String, Object> handle(Object rawObject);
+	public abstract Object build(Map<String, Object> formattedData);
 }

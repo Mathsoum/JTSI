@@ -1,12 +1,13 @@
 package network.builders;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ObjectBuilder extends AbstractBuilder {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public HashMap<String, Object> handle(Object object) {
+	public Map<String, Object> handle(Object object) {
 		if(object != null && object instanceof HashMap<?,?>) {
 			return (HashMap<String, Object>) object;
 		}
@@ -14,7 +15,7 @@ public class ObjectBuilder extends AbstractBuilder {
 	}
 
 	@Override
-	public Object build(HashMap<String, Object> formattedInputs) {
+	public Object build(Map<String, Object> formattedInputs) {
 		return formattedInputs;
 	}
 

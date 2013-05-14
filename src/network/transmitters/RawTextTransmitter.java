@@ -1,5 +1,10 @@
 package network.transmitters;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 
@@ -9,15 +14,27 @@ public class RawTextTransmitter extends AbstractTransmitter {
 	}
 
 	@Override
-	public void send(Object rawTextToSend) {
-		// TODO Auto-generated method stub
-
+	public void send(Object xmlContent) {
+		String xml = (String) xmlContent;
+		try {
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+			bw.write(xml);
+			bw.write('\n');
+			bw.flush();
+		} catch (IOException e) {
+			System.err.println("I/O exception : "+e.getMessage());
+		}
 	}
 
 	@Override
 	public Object receive() {
-		// TODO Auto-generated method stub
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			return br.readLine();
+		} catch (IOException e) {
+			System.err.println("I/O exception : "+e.getMessage());
+		}
 		return null;
 	}
-
 }

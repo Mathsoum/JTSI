@@ -1,18 +1,18 @@
 package network.builders;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class RawTextBuilder extends AbstractBuilder {
 
 	@Override
-	public HashMap<String, Object> handle(Object o) {
+	public Map<String, Object> handle(Object o) {
 		return null;
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Object build(HashMap<String, Object> formattedInputs) {
+	public Object build(Map<String, Object> formattedInputs) {
 		// TODO Auto-generated method stub
 		return null;
 	}
