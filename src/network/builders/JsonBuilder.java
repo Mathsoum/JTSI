@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 
 public class JsonBuilder extends AbstractBuilder {
 
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> handle(Object receivedObject) {
 		if(receivedObject != null && receivedObject instanceof String) {
@@ -16,7 +16,8 @@ public class JsonBuilder extends AbstractBuilder {
 			try {
 				JSONObject jsonObject = (JSONObject) parser.parse((String) receivedObject);
 				System.out.println("Handled : "+jsonObject.toJSONString());
-				return (Map<String,Object>) jsonObject;
+				Map<String,Object> jsonObject2 = (Map<String,Object>) jsonObject;
+				return jsonObject2;
 			} catch (ParseException e) {
 				System.err.println("JSON parser exception : "+e.getMessage());
 			}
@@ -24,7 +25,7 @@ public class JsonBuilder extends AbstractBuilder {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	@Override
 	public Object build(Map<String, Object> formattedInputs) {
 		JSONObject builder = new JSONObject();

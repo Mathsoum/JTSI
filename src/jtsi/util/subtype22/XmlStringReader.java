@@ -23,7 +23,7 @@ public class XmlStringReader {
 	
 	private Map<String, Object> parseContent(Node node) {
 		NodeList nodeList = node.getChildNodes();
-		Map<String, Object> mapNodeValues = new HashMap<>();
+		Map<String, Object> mapNodeValues = new HashMap<String, Object>();
 		for(int i=0; i<nodeList.getLength(); ++i) {
 			if(nodeList.item(i).getNodeType() == Element.ELEMENT_NODE) {
 				NodeList currentTagList =
@@ -47,7 +47,7 @@ public class XmlStringReader {
 	}
 	
 	private List<Object> parseArray(NodeList nodeList) {
-		List<Object> list = new ArrayList<>();
+		List<Object> list = new ArrayList<Object>();
 		for(int i=0; i<nodeList.getLength(); ++i) {
 			System.out.println("Parsing array, node "+i+" : type = "+nodeList.item(i).getNodeType()+" element = "+Node.ELEMENT_NODE+" // text = "+nodeList.item(i).getTextContent());
 			if(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {

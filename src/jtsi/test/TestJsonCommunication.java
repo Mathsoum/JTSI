@@ -15,11 +15,11 @@ public class TestJsonCommunication {
 		super();
 		Client client = new Client("192.168.1.10", 4444, DataType.JSON);
 		System.out.print("Sending inputs... ");
-		Map<String, Object> mapToSend = new HashMap<>();
+		Map<String, Object> mapToSend = new HashMap<String, Object>();
 		mapToSend.put("a", new Double(13));
 		mapToSend.put("b", new Double(37));
 		mapToSend.put("c", new Double(42));
-		ArrayList<Double> list = new ArrayList<>();
+		ArrayList<Double> list = new ArrayList<Double>();
 		list.add(new Double(1));
 		list.add(new Double(2));
 		list.add(new Double(3));

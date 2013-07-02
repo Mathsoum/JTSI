@@ -11,10 +11,8 @@ import network.builders.ObjectBuilder;
 import network.builders.RawTextBuilder;
 import network.builders.XmlBuilder;
 import network.transmitters.AbstractTransmitter;
-import network.transmitters.JsonTransmitter;
 import network.transmitters.ObjectTransmitter;
 import network.transmitters.RawTextTransmitter;
-import network.transmitters.XmlTransmitter;
 
 public class Client {
 
